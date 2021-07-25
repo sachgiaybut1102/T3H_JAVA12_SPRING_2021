@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/decorators">
+    <decorator name="admin" page="admin.jsp">
+        <pattern>/home/index</pattern>
+        <pattern>/nhanvien/index</pattern>
+        <pattern>/nhanvien/add</pattern>
+    </decorator>
+</decorators>
