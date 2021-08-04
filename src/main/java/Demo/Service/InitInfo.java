@@ -1,12 +1,14 @@
 package Demo.Service;
 
 import Demo.Model.NhanVien;
+import Demo.ViewModel.NhanVienViewModel;
 
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 
 public class InitInfo {
-    NhanVien initNhanVien(ResultSet resultSet) {
-        NhanVien nhanVien = new NhanVien();
+    NhanVienViewModel initNhanVien(ResultSet resultSet) {
+        NhanVienViewModel nhanVien = new NhanVienViewModel();
 
         try {
             nhanVien.setMaNv(resultSet.getInt("MaNV"));
@@ -16,6 +18,10 @@ public class InitInfo {
             nhanVien.setSdt(resultSet.getString("SDT"));
             nhanVien.setDiaChi(resultSet.getString("DiaChi"));
             nhanVien.setEmail(resultSet.getString("EMail"));
+
+            //add data to model property
+            nhanVien.setViewNgaySinh(new SimpleDateFormat("dd/MM/yyyy").format(nhanVien.getNgaySinh()).toString());
+            nhanVien.setViewGioiTinh(nhanVien.isGioiTinh() == true ? "Nam" : "Nữ");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

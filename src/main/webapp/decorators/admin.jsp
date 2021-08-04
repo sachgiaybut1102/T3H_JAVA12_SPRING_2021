@@ -26,6 +26,7 @@
             crossorigin="anonymous"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="<c:url value="/resources/js/common.js"/>"></script>
 </head>
 <body class="sb-nav-fixed">
 <jsp:include page="/common/admin/topbar.jsp"/>

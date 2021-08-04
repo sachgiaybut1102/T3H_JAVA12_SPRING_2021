@@ -1,6 +1,7 @@
 package Demo.Service;
 
 import Demo.Model.NhanVien;
+import Demo.ViewModel.NhanVienViewModel;
 import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
@@ -15,9 +16,9 @@ import java.util.List;
 @Service
 public class NhanVienService extends BaseService implements INhanVien {
     @Override
-    public List<NhanVien> getAll() {
+    public List<NhanVienViewModel> getAll() {
         paramters = new ArrayList<>();
-        List<NhanVien> nhanViens = new ArrayList<>();
+        List<NhanVienViewModel> nhanViens = new ArrayList<>();
 
         query = "execute SP_NhanVien_Select_All";
 
@@ -38,12 +39,32 @@ public class NhanVienService extends BaseService implements INhanVien {
     }
 
     @Override
-    public NhanVien getByID(String id) {
-        return null;
+    public NhanVienViewModel getByID(String id) {
+        paramters = new ArrayList<>();
+
+        NhanVienViewModel nhanVienViewModel = new NhanVienViewModel();
+
+        query = "execute SP_NhanVien_Select_SingleByID ?";
+
+        paramters.add(id);
+
+        try {
+            ResultSet resultSet = db.getTable(query, paramters);
+
+            InitInfo initInfo = new InitInfo();
+
+            while (resultSet.next()) {
+                nhanVienViewModel = initInfo.initNhanVien(resultSet);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return nhanVienViewModel;
     }
 
     @Override
-    public List<NhanVien> getByKeyword(String keyword) {
+    public List<NhanVienViewModel> getByKeyword(String keyword) {
         return null;
     }
 
@@ -68,7 +89,23 @@ public class NhanVienService extends BaseService implements INhanVien {
 
     @Override
     public boolean update(NhanVien info) {
-        return false;
+        paramters = new ArrayList<>();
+
+        query = "execute SP_NhanVien_Update ?, ?, ?, ?, ?, ?, ?";
+
+        paramters.add(Integer.toString(info.getMaNv()));
+        paramters.add(info.getTenNv());
+        paramters.add(new SimpleDateFormat("yyyy-MM-dd").format(info.getNgaySinh()));
+        paramters.add(info.isGioiTinh() ? "true" : "false");
+        paramters.add(info.getSdt());
+        paramters.add(info.getDiaChi());
+        paramters.add(info.getEmail());
+
+        boolean result = db.executeNonQuery(query, paramters);
+
+        db.closeConnection();
+
+        return result;
     }
 
     @Override

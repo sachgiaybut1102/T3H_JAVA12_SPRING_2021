@@ -1,14 +1,23 @@
 package Demo.Model;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.util.Date;
 
 public class NhanVien {
+    @JsonProperty
     private int maNv;
+    @JsonProperty
     private String tenNv;
+    @JsonProperty
     private Date ngaySinh;
+    @JsonProperty
     private boolean gioiTinh;
+    @JsonProperty
     private String sdt;
+    @JsonProperty
     private String diaChi;
+    @JsonProperty
     private String email;
 
     public int getMaNv() {

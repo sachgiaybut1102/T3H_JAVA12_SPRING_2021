@@ -15,7 +15,7 @@ public class SqlDataAccess {
     private PreparedStatement ps;
 
     public SqlDataAccess() {
-        serverName = "DESKTOP-54ADATL\\MINHPC";
+        serverName = "DESKTOP-54ADATL";
         databaseName = "DB_T3H_WareHouseManger";
 
         url = "jdbc:sqlserver://" + serverName + ";databaseName=" + databaseName;

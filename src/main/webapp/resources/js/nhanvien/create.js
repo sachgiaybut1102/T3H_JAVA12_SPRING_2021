@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    $('#btn-add').click(function(){
+
+    $('#btn-add').click(function () {
         add();
     })
 });
@@ -10,18 +11,18 @@ function add() {
         type: 'POST',
         datatype: 'JSON',
         url: '/nhanvien/addconfirmed/',
-        data:{
-            nhanVien :{
-                tenNv : $('#tenNv').val(),
-                ngaySinh : $('#ngaySinh').val(),
-                gioiTinh : $('#gioiTinh').val(),
-                sdt : $('#sdt').val(),
-                email : $('#email').val(),
-                diaChi : $('#diaChi').val(),
+        data: {
+            nhanVien: {
+                tenNv: $('#tenNv').val(),
+                ngaySinh: $('#ngaySinh').val(),
+                gioiTinh: $('#gioiTinh').val(),
+                sdt: $('#sdt').val(),
+                email: $('#email').val(),
+                diaChi: $('#diaChi').val(),
             }
         },
         success: function (result) {
-            if(result == "ok"){
+            if (result == "ok") {
                 location.replace('/nhanvien/index');
             }
 
