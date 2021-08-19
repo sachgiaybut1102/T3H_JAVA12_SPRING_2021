@@ -1,5 +1,27 @@
 $(document).ready(function () {
-    loadData();
+    //loadData();
+    initPagination();
+
+    $('#btn-upload').click(function () {
+        var fileupload = $('#upload').get(0);
+        var files = fileupload.files;
+
+        var formdata = new FormData();
+        formdata.append('file', files[0]);
+
+        $.ajax({
+            type: 'POST',
+            datatype: 'JSON',
+            data: formdata,
+            contentType: false,
+            processData: false,
+            url: '/nhanvien/upLoad/',
+            success: function (result) {
+                console.log(result);
+            }
+        });
+        $('#tb-view tbody').empty().append(html);
+    })
 });
 
 function loadData() {
@@ -46,8 +68,8 @@ function loadData() {
             $.ajax({
                 type: 'POST',
                 datatype: 'JSON',
-                data:{
-                    json : JSON.stringify(objs)
+                data: {
+                    json: JSON.stringify(objs)
                 },
                 url: '/nhanvien/addlist/',
                 success: function (result) {

@@ -2,7 +2,7 @@ package Demo.Service;
 
 import java.util.List;
 
-public interface ICommonService<T,E> {
+public interface ICommonService<T, E> {
     public List<E> getAll();
 
     public E getByID(String id);
@@ -14,4 +14,5 @@ public interface ICommonService<T,E> {
     public boolean update(T info);
 
     public boolean delete(T info);
+
 }

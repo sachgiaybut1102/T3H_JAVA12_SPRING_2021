@@ -39,6 +39,57 @@ public class NhanVienService extends BaseService implements INhanVien {
     }
 
     @Override
+    public List<NhanVienViewModel> getByPage(int pageNumber, int pageSize) {
+        paramters = new ArrayList<>();
+        List<NhanVienViewModel> nhanViens = new ArrayList<>();
+
+        query = "execute SP_NhanVien_Select_ByPage ?, ?";
+
+        paramters.add(Integer.toString(pageNumber));
+        paramters.add(Integer.toString(pageSize));
+
+        try {
+            ResultSet resultSet = db.getTable(query, paramters);
+
+            InitInfo initInfo = new InitInfo();
+
+            while (resultSet.next()) {
+                nhanViens.add(initInfo.initNhanVien(resultSet));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        db.closeConnection();
+
+        return nhanViens;
+    }
+
+    @Override
+    public int getCountPage(int pageSize) {
+        int counttPage = 1;
+
+        paramters = new ArrayList<>();
+        paramters.add(Integer.toString(pageSize));
+
+        query = "Execute SP_NhanVien_GetCountPage ?";
+
+        try {
+            ResultSet resultSet = db.getTable(query, paramters);
+
+            while (resultSet.next()) {
+                counttPage = resultSet.getInt(1);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        db.closeConnection();
+
+        return counttPage;
+    }
+
+    @Override
     public NhanVienViewModel getByID(String id) {
         paramters = new ArrayList<>();
 

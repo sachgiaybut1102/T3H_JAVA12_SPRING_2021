@@ -8,10 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.Multipart;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -28,8 +33,15 @@ public class NhanVienController {
     INhanVien iNhanVien;
 
     @RequestMapping(value = "index")
-    public ModelAndView index() {
+    public ModelAndView index(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
+                              @RequestParam(value = "pageSize" , required = false, defaultValue = "10") int pageSize) {
+        System.out.println("pageNumber = " + pageNumber);
         ModelAndView modelAndView = new ModelAndView("NhanVien/index");
+
+        modelAndView.addObject("items", iNhanVien.getByPage(pageNumber, pageSize));
+        modelAndView.addObject("pageNumber", pageNumber);
+        modelAndView.addObject("pageSize", pageSize);
+        modelAndView.addObject("pageCount",iNhanVien.getCountPage(pageSize));
 
         return modelAndView;
     }
@@ -97,6 +109,15 @@ public class NhanVienController {
         return "ok";
     }
 
+    @RequestMapping(value = "upLoad", method = RequestMethod.POST)
+    public ModelAndView upLoad(@RequestParam("file") MultipartFile file) {
+        ModelAndView modelAndView = new ModelAndView("upload");
+        System.out.println("đã vào");
+        saveFile(file);
+        System.out.println("upload file!");
+        return modelAndView;
+    }
+
     private NhanVien initNhanVien(HttpServletRequest req) {
         NhanVien nhanVien = new NhanVien();
 
@@ -114,6 +135,44 @@ public class NhanVienController {
         nhanVien.setEmail(req.getParameter("email"));
 
         return nhanVien;
+    }
+
+    private String saveFile(MultipartFile file) {
+        String name = "";
+        if (file != null && !file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                String rootPath = System.getProperty("resources");
+
+                File dir = new File(rootPath + "\\" + "img");
+
+                if (!dir.exists()) {
+                    System.out.println("not exits");
+                    dir.mkdir();
+                }
+
+                Path source = Paths.get(this.getClass().getResource("\\").getPath());
+
+                System.out.println("source: " + source.toAbsolutePath());
+               // Path newFolder = Paths.get(source.toAbsolutePath() + "/newFolder/");
+                //Files.createDirectories(newFolder);
+
+
+                name = String.valueOf(new Date().getTime() + ".jpg");
+
+                File serverFile = new File(dir.getAbsoluteFile() + "\\" + name);
+
+                System.out.println(serverFile.getPath());
+
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                stream.write(bytes);
+                stream.close();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+
+        return name;
     }
 
     @RequestMapping(value = "/getall", method = RequestMethod.GET)

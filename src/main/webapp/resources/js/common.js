@@ -1,8 +1,9 @@
-$(document).ready(function(){
+$(document).ready(function () {
     $('.date-default').val(getCurrentDateVale());
+    initSelectRowCount();
 })
 
-function getCurrentDateVale(){
+function getCurrentDateVale() {
     var date = new Date();
 
     var year = date.getFullYear();
@@ -17,10 +18,58 @@ function getCurrentDateVale(){
     return val;
 }
 
-function getGender(isMale){
-    if(isMale){
+function getGender(isMale) {
+    if (isMale) {
         return 'Nam';
     }
 
     return 'Nữ';
+}
+
+function initPagination() {
+    let id = '#pagination-demo';
+
+    let currentPage = parseInt($('#pageNumber').val());
+    let pageSize = parseInt($('#pageSize').val());
+    let totalPages = parseInt($(id).data('pagecount'));
+
+    console.log(currentPage);
+    $(id).twbsPagination({
+        totalPages: totalPages,
+        visiblePages: 5,
+        startPage: currentPage,
+        onPageClick: function (e, page) {
+            console.log('page clicked: ' + page);
+
+            if (currentPage != page) {
+                $('#pageNumber').val(page);
+                $('#pageSize').val(pageSize);
+                $('#submit').submit();
+            }
+        },
+        first: 'Đầu',
+        prev: 'Trước',
+        next: 'Sau',
+        last: 'Cuối'
+    });
+
+    $(id).removeClass('pagination-lg').addClass('pagination-sm');
+}
+
+function initSelectRowCount() {
+    var arr = [10, 25, 50, 100];
+
+    let element = $('.count-row');
+
+    $.each(arr, function (i, e) {
+        $(element).append('<option value="' + e + '">' + e + '</option>');
+    });
+
+    $(element).val($('#pageSize').val());
+
+    $(element).change(function () {
+        $('#pageSize').val($(this).val());
+
+        $('#submit').submit();
+    });
 }
