@@ -1,6 +1,6 @@
 $(document).ready(function () {
     //loadData();
-    initPagination();
+    //initPagination();
 
     $('#btn-upload').click(function () {
         var fileupload = $('#upload').get(0);
@@ -15,7 +15,7 @@ $(document).ready(function () {
             data: formdata,
             contentType: false,
             processData: false,
-            url: '/nhanvien/upLoad/',
+            url: '/uploadfile',
             success: function (result) {
                 console.log(result);
             }

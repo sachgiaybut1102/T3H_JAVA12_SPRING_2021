@@ -15,7 +15,7 @@ public class SqlDataAccess {
     private PreparedStatement ps;
 
     public SqlDataAccess() {
-        serverName = "DESKTOP-LLF0NL5";
+        serverName = "MSI";
         databaseName = "DB_T3H_WareHouseManger";
 
         url = "jdbc:sqlserver://" + serverName + ";databaseName=" + databaseName;

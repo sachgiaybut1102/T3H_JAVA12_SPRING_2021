@@ -39,14 +39,15 @@ public class NhanVienService extends BaseService implements INhanVien {
     }
 
     @Override
-    public List<NhanVienViewModel> getByPage(int pageNumber, int pageSize) {
+    public List<NhanVienViewModel> getByPage(int pageNumber, int pageSize, String keyword) {
         paramters = new ArrayList<>();
         List<NhanVienViewModel> nhanViens = new ArrayList<>();
 
-        query = "execute SP_NhanVien_Select_ByPage ?, ?";
+        query = "execute SP_NhanVien_Select_ByPage ?, ?, ?";
 
         paramters.add(Integer.toString(pageNumber));
         paramters.add(Integer.toString(pageSize));
+        paramters.add(keyword);
 
         try {
             ResultSet resultSet = db.getTable(query, paramters);
@@ -66,13 +67,14 @@ public class NhanVienService extends BaseService implements INhanVien {
     }
 
     @Override
-    public int getCountPage(int pageSize) {
+    public int getCountPage(int pageSize, String keyword) {
         int counttPage = 1;
+
+        query = "Execute SP_NhanVien_GetCountPage ?, ?";
 
         paramters = new ArrayList<>();
         paramters.add(Integer.toString(pageSize));
-
-        query = "Execute SP_NhanVien_GetCountPage ?";
+        paramters.add(keyword);
 
         try {
             ResultSet resultSet = db.getTable(query, paramters);

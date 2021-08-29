@@ -6,11 +6,11 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class NhanVienViewModel extends NhanVien{
+public class NhanVienViewModel extends NhanVien {
     @JsonProperty
-   private String viewGioiTinh;
+    private String viewGioiTinh;
     @JsonProperty
-   private String viewNgaySinh;
+    private String viewNgaySinh;
 
     public String getViewGioiTinh() {
         return viewGioiTinh;

@@ -1,37 +1,18 @@
 $(document).ready(function () {
-    $('.date-default').val(getCurrentDateVale());
+    initPagination();
     initSelectRowCount();
+
+    $('#current-totalpage').append($('#pageNumber').val() + '/' + $('#pageSize').val());
 })
 
-function getCurrentDateVale() {
-    var date = new Date();
-
-    var year = date.getFullYear();
-    var numMonth = parseInt(date.getMonth()) + 1;
-    var month = numMonth < 10 ? ('0' + numMonth) : numMonth;
-    var date = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-
-    var val = year + '-' + month + '-' + date;
-
-    console.log(val);
-
-    return val;
-}
-
-function getGender(isMale) {
-    if (isMale) {
-        return 'Nam';
-    }
-
-    return 'Nữ';
-}
 
 function initPagination() {
-    let id = '#pagination-demo';
+    let id = '#pagination';
 
     let currentPage = parseInt($('#pageNumber').val());
     let pageSize = parseInt($('#pageSize').val());
     let totalPages = parseInt($(id).data('pagecount'));
+    let keyword = $('#keyword').val();
 
     console.log(currentPage);
     $(id).twbsPagination({
@@ -44,6 +25,7 @@ function initPagination() {
             if (currentPage != page) {
                 $('#pageNumber').val(page);
                 $('#pageSize').val(pageSize);
+                $('#keyword').val(keyword);
                 $('#submit').submit();
             }
         },
@@ -59,7 +41,7 @@ function initPagination() {
 function initSelectRowCount() {
     var arr = [10, 25, 50, 100];
 
-    let element = $('.count-row');
+    let element = $('#select-pagesize');
 
     $.each(arr, function (i, e) {
         $(element).append('<option value="' + e + '">' + e + '</option>');
